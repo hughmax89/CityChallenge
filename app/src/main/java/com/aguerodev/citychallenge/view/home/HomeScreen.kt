@@ -68,7 +68,6 @@ fun HomeScreen(navigateToDetail: (Long) -> Unit, homeViewModel: HomeViewModel = 
 
     if (isLandscape) {
         Row(Modifier.fillMaxSize()) {
-            // Mitad izquierda: contenido actual
             Box(
                 Modifier
                     .weight(1f)
@@ -124,7 +123,6 @@ fun HomeScreen(navigateToDetail: (Long) -> Unit, homeViewModel: HomeViewModel = 
             }
         }
     } else {
-        // Modo vertical: comportamiento original
         Box(
             Modifier
                 .fillMaxSize()

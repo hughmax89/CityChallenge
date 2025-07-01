@@ -28,6 +28,7 @@ object DataModule {
         return retrofit.create(CitiesClient::class.java)
     }
 
+    //TODO: API Ualá
     @Singleton
     @Provides
     fun provideRetrofit(json: Json): Retrofit {
@@ -36,6 +37,16 @@ object DataModule {
             .addConverterFactory(json.asConverterFactory("application/json; charset=UTF8".toMediaType()))
             .build()
     }
+
+//    //TODO: API MOCK
+//    @Singleton
+//    @Provides
+//    fun provideRetrofit(json: Json): Retrofit {
+//        return Retrofit.Builder()
+//            .baseUrl("https://6864311f88359a373e97c74c.mockapi.io/api/")
+//            .addConverterFactory(json.asConverterFactory("application/json; charset=UTF8".toMediaType()))
+//            .build()
+//    }
 
     @Provides
     fun provideJson(): Json {
