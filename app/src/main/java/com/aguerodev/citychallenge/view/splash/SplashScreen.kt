@@ -49,10 +49,17 @@ fun SplashScreenPreview() {
 fun SplashScreen(navigateToHome: () -> Unit, splashScreenViewModel: SplashScreenViewModel = hiltViewModel()) {
 
     splashScreenViewModel.cities.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        delay(1500)
-        navigateToHome()
+    var isLoading = splashScreenViewModel.isLoading.collectAsStateWithLifecycle().value
+
+    if (!isLoading) {
+        LaunchedEffect(Unit) {
+            delay(1500)
+            navigateToHome()
+        }
+    }else{
+        splashScreenViewModel.getCitiesFromApi()
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()

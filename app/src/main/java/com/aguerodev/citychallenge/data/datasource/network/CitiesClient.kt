@@ -8,4 +8,9 @@ interface CitiesClient {
     @GET("cities.json")
     suspend fun getCities(): List<CityResponse>
 
+
+    //Mock API
+//    @GET("cityList/City")
+//    suspend fun getCities(): List<CityResponse>
+
 }
