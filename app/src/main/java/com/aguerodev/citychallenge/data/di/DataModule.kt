@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.aguerodev.citychallenge.data.datasource.database.AppDatabase
 import com.aguerodev.citychallenge.data.datasource.network.CitiesClient
+import com.aguerodev.citychallenge.data.repository.CityRepositoryImpl
 import com.aguerodev.citychallenge.data.response.CityResponse
+import com.aguerodev.citychallenge.domain.repository.CityRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
