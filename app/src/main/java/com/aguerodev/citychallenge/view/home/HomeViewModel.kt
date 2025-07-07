@@ -13,6 +13,7 @@ import com.aguerodev.citychallenge.domain.usecase.SaveFavoriteCityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +25,8 @@ class HomeViewModel @Inject constructor(
     val getCitiesByNameUseCase: GetCitiesByNameUseCase,
     val saveFavoriteCityUseCase: SaveFavoriteCityUseCase,
     val deleteFavoriteCityUseCase: DeleteFavoriteCityUseCase,
-    val getFavoriteCitiesUseCase: GetFavoriteCitiesUseCase) : ViewModel() {
+    val getFavoriteCitiesUseCase: GetFavoriteCitiesUseCase
+) : ViewModel() {
 
     private val _isLoading = MutableStateFlow<Boolean>(true)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -35,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val _loadCitiesFavs = MutableStateFlow<Boolean>(false)
     val loadCitiesFavs: StateFlow<Boolean> = _loadCitiesFavs
 
-    fun getCitiesFromDB(){
+    fun getCitiesFromDB() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
             _loadCitiesFavs.update { false }
@@ -46,11 +48,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fetchCityByName(name: String){
+    fun fetchCityByName(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
             _loadCitiesFavs.update { false }
-            if (name.isNotEmpty()){
+            if (name.isNotEmpty()) {
                 _cities.update {
                     getCitiesByNameUseCase.invoke(name)
                 }
@@ -59,18 +61,20 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getFavoritesCities(){
-                viewModelScope.launch(Dispatchers.IO) {
-                    _isLoading.update { true }
-                    _citiesFavs.update {
-                        getFavoriteCitiesUseCase()
-                    }
-                    _loadCitiesFavs.update { !it }
-                    _isLoading.update { false }
-                }
+    fun getFavoritesCities() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _loadCitiesFavs.update { !it }
+            _isLoading.update { true }
+            _citiesFavs.update {
+                getFavoriteCitiesUseCase()
             }
+            _isLoading.update {
+                false
+            }
+        }
+    }
 
-    fun saveFavoriteCity(_id : Long){
+    fun saveFavoriteCity(_id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
             saveFavoriteCityUseCase.invoke(_id)
@@ -81,7 +85,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun deletedFavoriteCity(_id : Long){
+    fun deletedFavoriteCity(_id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
             deleteFavoriteCityUseCase.invoke(_id)
